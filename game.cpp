@@ -6,72 +6,71 @@
 
 using namespace std;
 
-const int MAX_INCORRECT = 6;
-
 void drawHangman(int incorrect) {
     switch (incorrect) {
-        case 1:
-            cout << "  _____" << endl;
-            cout << " |     |" << endl;
-            cout << "       |" << endl;
-            cout << "       |" << endl;
-            cout << "       |" << endl;
-            cout << "       |" << endl;
-            cout << "_______|" << endl;
-            break;
-        case 2:
-            cout << "  _____" << endl;
-            cout << " |     |" << endl;
-            cout << " O     |" << endl;
-            cout << "       |" << endl;
-            cout << "       |" << endl;
-            cout << "       |" << endl;
-            cout << "_______|" << endl;
-            break;
-        case 3:
-            cout << "  _____" << endl;
-            cout << " |     |" << endl;
-            cout << " O     |" << endl;
-            cout << " |     |" << endl;
-            cout << "       |" << endl;
-            cout << "       |" << endl;
-            cout << "_______|" << endl;
-            break;
-        case 4:
-            cout << "  _____" << endl;
-            cout << " |     |" << endl;
-            cout << " O     |" << endl;
-            cout << "/|     |" << endl;
-            cout << "       |" << endl;
-            cout << "       |" << endl;
-            cout << "_______|" << endl;
-            break;
-        case 5:
-            cout << "  _____" << endl;
-            cout << " |     |" << endl;
-            cout << " O     |" << endl;
-            cout << "/|\\    |" << endl;
-            cout << "       |" << endl;
-            cout << "       |" << endl;
-            cout << "_______|" << endl;
-            break;
-        case 6:
-            cout << "  _____" << endl;
-            cout << " |     |" << endl;
-            cout << " O     |" << endl;
-            cout << "/|\\    |" << endl;
-            cout << "/      |" << endl;
-            cout << "       |" << endl;
-            cout << "_______|" << endl;
-        case 7:
-            cout << "  _____" << endl;
-            cout << " |     |" << endl;
-            cout << " O     |" << endl;
-            cout << "/|\\    |" << endl;
-            cout << "/\      |" << endl;
-            cout << "       |" << endl;
-            cout << "_______|" << endl;
-            break;
+    case 1:
+        cout << "  +---+" << endl;
+        cout << "  |   |" << endl;
+        cout << "      |" << endl;
+        cout << "      |" << endl;
+        cout << "      |" << endl;
+        cout << "      |" << endl;
+        cout << "=========" << endl;
+        break;
+    case 2:
+        cout << "  +---+" << endl;
+        cout << "  |   |" << endl;
+        cout << "  O   |" << endl;
+        cout << "      |" << endl;
+        cout << "      |" << endl;
+        cout << "      |" << endl;
+        cout << "=========" << endl;
+        break;
+    case 3:
+        cout << "  +---+" << endl;
+        cout << "  |   |" << endl;
+        cout << "  O   |" << endl;
+        cout << "  |   |" << endl;
+        cout << "      |" << endl;
+        cout << "      |" << endl;
+        cout << "=========" << endl;
+        break;
+    case 4:
+        cout << "  +---+" << endl;
+        cout << "  |   |" << endl;
+        cout << "  O   |" << endl;
+        cout << " /|   |" << endl;
+        cout << "      |" << endl;
+        cout << "      |" << endl;
+        cout << "=========" << endl;
+        break;
+    case 5:
+        cout << "  +---+" << endl;
+        cout << "  |   |" << endl;
+        cout << "  O   |" << endl;
+        cout << " /|\\  |" << endl;
+        cout << "      |" << endl;
+        cout << "      |" << endl;
+        cout << "=========" << endl;
+        break;
+    case 6:
+        cout << "  +---+" << endl;
+        cout << "  |   |" << endl;
+        cout << "  O   |" << endl;
+        cout << " /|\\  |" << endl;
+        cout << " / \\   |" << endl;
+        cout << "      |" << endl;
+        cout << "=========" << endl;
+        break;
+    case 7:
+        cout << "  +---+" << endl;
+        cout << "  |   |" << endl;
+        cout << "  O   |" << endl;
+        cout << " /|\\ |" << endl;
+        cout << " / \\  |" << endl;
+        cout << "      |" << endl;
+        cout << "=========" << endl;
+        break;
     }
 }
 
@@ -80,66 +79,79 @@ int main() {
     vector<string> answers;
     string input;
 
-    // Get questions and answers from user
     while (true) {
-        cout << "Enter a question (or \"done\" to finish): ";
+        cout << "Įveskite klausimą (arba parašykite baigta, kad pradėti žaidimą)";
         getline(cin, input);
-        if (input == "done") {
+        if (input == "baigta") {
             break;
         }
         questions.push_back(input);
 
-        cout << "Enter the answer: ";
+        cout << "Įveskite atsakymą: ";
         getline(cin, input);
         answers.push_back(input);
     }
 
-    // Randomly select a question and answer
-    srand(time(0));
+
+    srand(time(NULL));
     int index = rand() % questions.size();
+    string question = questions[index];
     string answer = answers[index];
-    string hidden(answer.size(), '-');
 
+
+    string soFar(answer.size(), '-');
+    string used("");
     int incorrect = 0;
-    string guessed;
 
- // Play game
-    cout << "Welcome to Hangman!" << endl;
-    while (incorrect < 6 && hidden != answer) {
-        cout << "Question: " << questions[index] << endl;
-        cout << "Current word: " << hidden << endl;
-        cout << "Guessed letters: " << guessed << endl;
+    cout << "Sveiki atvyke į Kartuvės, štai jūsų klausimai: " << endl;
+    cout << question << endl;
 
-        char guess;
-        cout << "Guess a letter: ";
+    while ((incorrect < 7) && (soFar != answer)) {
+        cout << "\nNeteisingi spėjimai: " << incorrect << "/7" << endl;
+        cout << "Panaudotos raidės: " << used << " " << endl;
+        cout << "Dabartinis žodis: " << soFar << endl;
+
+        string guess;
+        char firstLetter;
+        cout << "Įveskite raidę: ";
         cin >> guess;
+        firstLetter = guess[0];
+        guess = firstLetter;
 
-        // Check if guess is correct
-        bool correct = false;
-        for (int i = 0; i < answer.length(); i++) {
-            if (answer[i] == guess) {
-                hidden[i] = guess;
-                correct = true;
+        while (used.find(guess) != string::npos) {
+            cout << "Jūs jau spėjote šią raidę " << guess << " " << endl;
+            cout << "Įveskite raidę: ";
+            cin >> guess;
+            guess = guess;
+        }
+
+        used += guess;
+
+        if (answer.find(guess) != string::npos) {
+            cout << "Teisingai! " << guess << " yra žodyje." << endl;
+
+            for (int i = 0; i < answer.length(); i++) {
+                if (answer[i] == firstLetter) {
+                    soFar[i] = firstLetter;
+                }
             }
         }
-
-        if (correct) {
-            cout << "Correct!" << endl;
-        } else {
-            cout << "Incorrect!" << endl;
+        else {
+            cout << "Atsiprašau, " << guess << " nėra žodyje" << endl;
             incorrect++;
+            drawHangman(incorrect);
         }
-
-        guessed += guess;
     }
 
-    // Display result
-    if (incorrect == 6) {
-        cout << "You lose! The answer was: " << answer << endl;
-    } else {
-        cout << "Congratulations, you win!" << endl;
-        cout << "The answer was: " << answer << endl;
+
+    if (incorrect == 7) {
+        cout << "\nJūs buvote pakarti!" << endl;
     }
+    else {
+        cout << "\nSveikinu, atspėjote žodį!" << endl;
+    }
+
+    cout << "Žodis buvo: " << answer << endl;
 
     return 0;
 }
